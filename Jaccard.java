@@ -5,6 +5,8 @@ import java.util.*;
 public class Jaccard{
 		
 	public static void main(String[] args){
+		long startTime = System.currentTimeMillis();
+
 		ArrayList<Double> set1;
 		ArrayList<Double> set2;
 		
@@ -33,15 +35,28 @@ public class Jaccard{
 
 		Set<Double> union=new HashSet<>(set1);
 		union.addAll(dSet2);
+		int u=union.size();
 		System.out.println("Union set has "+union.size()+" elements ");
 		
 		//This is non-destructuve version of intersection
 		Set<Double> intersection=new HashSet<>(set1);
 		intersection.retainAll(dSet2);
-		System.out.println("Intersection set has "+intersection.size()+" elements ");
+		int i=intersection.size();
+		System.out.println("Intersection set has "+i+" elements ");
+
+		//Computing the Jaccard Index 
+		float jc=(float)i/(float)u;
+		System.out.println("Jaccard Coefficient is : " +jc);
+		
+		
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println("Start time: "+startTime);
+		System.out.println("End Time: "+endTime+"\nElapsedtime: "+totalTime);
+
 	
-	}
+	}//end of main method
 
 
 
-}
+}//end of class
