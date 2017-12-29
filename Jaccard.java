@@ -8,6 +8,13 @@ public class Jaccard{
 		
 		Set<Double> set1=new HashSet<>(list1);
 		Set<Double> set2=new HashSet<>(list2);
+		//This is the destructive version of union
+		//It will destroy the dSet1's all value
+		//	dSet1.addAll(dSet2);
+		
+		
+		//This is the non-destructive version of union
+		//It will not destroy, because we are copying the list first
 
 		Set<Double> union=new HashSet<>(set1);
 		union.addAll(set2);
@@ -34,43 +41,63 @@ public class Jaccard{
 		long startTime = System.currentTimeMillis();
 
 		ArrayList<Double> list1;
-		ArrayList<Double> list2;
-		ArrayList<Double> list3;
+		ArrayList<Double> plane1;
+		ArrayList<Double> plane2;
 		
 		list1=new ArrayList<Double>();
-		list2=new ArrayList<Double>();
-		list3=new ArrayList<Double>();
+		plane1=new ArrayList<Double>();
+		plane2=new ArrayList<Double>();
 	
 		list1.add(1.1);
 		list1.add(2.2); 
 		list1.add(3.3); 
 		list1.add(4.4);
 
-		list2.add(0.1); 
-		list2.add(0.2); 
-		list2.add(4.4); 
-		list2.add(0.3);
+		plane1.add(1.1); 
+		plane1.add(2.2); 
+		plane1.add(4.4); 
+		plane1.add(0.3);
 		
-		list3.add(0.1); 
-		list3.add(0.2); 
-		list3.add(4.4); 
-		list3.add(0.3);
+		plane2.add(0.5); 
+		plane2.add(0.7); 
+		plane2.add(4.2); 
+		plane2.add(0.5);
 
 		
-		//This is the destructive version of union
-		//It will destroy the dSet1's all value
-	//	dSet1.addAll(dSet2);
 		
-		
-		//This is the non-destructive version of union
-		//It will not destroy, because we are copying the list first
+		int bucketBit1;
+		int bucketBit2;
 
-		getJaccardIndex(list1,list2);
+		if(getJaccardIndex(list1,plane1)>0.5){
+			bucketBit1=0b1;
+		}else{
+			bucketBit1=0b0;
+		}
+
+		if(getJaccardIndex(list1,plane2)>0.5){
+			bucketBit2=1;
+		}else{
+			bucketBit2=0;
+		}
 		
 		
+		bucketBit1 <<= 1;
+        bucketBit1 |= bucketBit2;
+        System.out.println("The bucket number is : "+Integer.toString(bucketBit1,2));
+
+
+
+
+
+
+
+
+
+
+
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("Start time: "+startTime);
+		//System.out.println("Start time: "+startTime);
 		System.out.println("End Time: "+endTime+"\nElapsedtime: "+totalTime);
 
 	

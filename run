@@ -1,2 +1,3 @@
+rm Jaccard.class
 javac Jaccard.java
 java Jaccard
