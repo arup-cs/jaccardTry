@@ -34,7 +34,13 @@ public class Jaccard{
 	}	
 
 
-
+	public static void addPoint(ArrayList<Double> list1, double first,double second, double third, double forth){
+		//list1=new ArrayList<Double>();
+		list1.add(first);
+		list1.add(second); 
+		list1.add(third); 
+		list1.add(forth);
+	}
 
 
 	public static void main(String[] args){
@@ -48,23 +54,11 @@ public class Jaccard{
 		plane1=new ArrayList<Double>();
 		plane2=new ArrayList<Double>();
 	
-		list1.add(1.1);
-		list1.add(2.2); 
-		list1.add(3.3); 
-		list1.add(4.4);
-
-		plane1.add(1.1); 
-		plane1.add(2.2); 
-		plane1.add(4.4); 
-		plane1.add(0.3);
-		
-		plane2.add(0.5); 
-		plane2.add(0.7); 
-		plane2.add(4.2); 
-		plane2.add(0.5);
-
-		
-		
+		addPoint(list1,1.1,2.2,3.3,4.4);
+		addPoint(plane1,1.1,2.2,4.4,0.3);
+		addPoint(plane2,0.5,0.7,4.2,0.5);
+				
+				
 		int bucketBit1;
 		int bucketBit2;
 
@@ -81,6 +75,7 @@ public class Jaccard{
 		}
 		
 		
+		//getting the bucket number
 		bucketBit1 <<= 1;
         bucketBit1 |= bucketBit2;
         System.out.println("The bucket number is : "+Integer.toString(bucketBit1,2));
