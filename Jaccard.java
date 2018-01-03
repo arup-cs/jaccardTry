@@ -3,11 +3,35 @@ import java.util.*;
 
 //This program computes the Jaccard distance between two sets
 public class Jaccard{
+	static ArrayList<Record> trainList=new ArrayList<Record>();
+	static ArrayList<Record> resultList=new ArrayList<Record>();
+	static ArrayList<Record> list00= new ArrayList<Record>();
+	static ArrayList<Record> list01= new ArrayList<Record>();
+	static ArrayList<Record> list10= new ArrayList<Record>();
+	static ArrayList<Record> list11= new ArrayList<Record>();
 	
-	static double getJaccardIndex(ArrayList<Double> list1, ArrayList<Double> list2 ){
+	static ArrayList<Double> list1=new ArrayList<Double>();
+	static ArrayList<Double> plane1=new ArrayList<Double>();
+	static ArrayList<Double> plane2=new ArrayList<Double>();
+
+
+	
+	public static void addPoint(ArrayList<Double> list1, double first,double second, double third, double forth){
+		//list1=new ArrayList<Double>();
+		System.out.println("Adding to list "+first+" "+second+" "+third+" "+forth);
+
+		list1.add(first);
+		list1.add(second); 
+		list1.add(third); 
+		list1.add(forth);
+	}
+
+
+
+	static double getJaccardIndex(ArrayList<Double> list1, ArrayList<Double> plane ){
 		
 		Set<Double> set1=new HashSet<>(list1);
-		Set<Double> set2=new HashSet<>(list2);
+		Set<Double> set2=new HashSet<>(plane);
 		//This is the destructive version of union
 		//It will destroy the dSet1's all value
 		//	dSet1.addAll(dSet2);
@@ -33,63 +57,105 @@ public class Jaccard{
 		return jc;
 	}	
 
-
-	public static void addPoint(ArrayList<Double> list1, double first,double second, double third, double forth){
-		//list1=new ArrayList<Double>();
-		list1.add(first);
-		list1.add(second); 
-		list1.add(third); 
-		list1.add(forth);
-	}
-
-
-	public static void main(String[] args){
-		long startTime = System.currentTimeMillis();
-
-		ArrayList<Double> list1;
-		ArrayList<Double> plane1;
-		ArrayList<Double> plane2;
-		
-		list1=new ArrayList<Double>();
-		plane1=new ArrayList<Double>();
-		plane2=new ArrayList<Double>();
 	
-		addPoint(list1,1.1,2.2,3.3,4.4);
-		addPoint(plane1,1.1,2.2,4.4,0.3);
-		addPoint(plane2,0.5,0.7,4.2,0.5);
-				
-				
+
+
+	static String getBucketNumber(ArrayList<Double> list1, ArrayList<Double> plane1,ArrayList<Double>plane2){
 		int bucketBit1;
 		int bucketBit2;
+		String bucketNumber="";
 
-		if(getJaccardIndex(list1,plane1)>0.5){
+		if(getJaccardIndex(list1,plane1)>0.2){
 			bucketBit1=0b1;
 		}else{
 			bucketBit1=0b0;
 		}
 
-		if(getJaccardIndex(list1,plane2)>0.5){
+		if(getJaccardIndex(list1,plane2)>0.2){
 			bucketBit2=1;
 		}else{
 			bucketBit2=0;
 		}
-		
-		
+
 		//getting the bucket number
 		bucketBit1 <<= 1;
         bucketBit1 |= bucketBit2;
-        System.out.println("The bucket number is : "+Integer.toString(bucketBit1,2));
+        bucketNumber=Integer.toString(bucketBit1,2);
+        System.out.println("******************>>>>>>>>The bucket number is : "+bucketNumber);
+        return bucketNumber;
+	}
+
+
+
+	
+
+
+
+	static void setUp(String fileName,ArrayList<Double> list) throws IOException{
+			BufferedReader reader=null;
+			String line="";
+			int totalRecord=0;
+			
+			try{
+				reader=new BufferedReader(new FileReader(fileName));
+				line=reader.readLine();
+			} catch (Exception e){
+				System.out.println("File Not Found");
+			}
+						
+						
+
+						while(line!=null){
+							totalRecord=totalRecord+1;
+							String[] tokens=line.split(",");
+							Record record1=new Record();
+							record1.setSepalL(Float.parseFloat(tokens[0]));
+							record1.setSepalW(Float.parseFloat(tokens[1]));
+							record1.setPetalL(Float.parseFloat(tokens[2]));
+							record1.setPetalW(Float.parseFloat(tokens[3]));
+							record1.setCategory(tokens[4]);
+							
+							addPoint(list,Double.parseDouble(tokens[0]),Double.parseDouble(tokens[1]),
+								Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
+
+
+							//Hash function and hash table should be included
+							//tlist.add(record1);
+							String bnumber=getBucketNumber(list, plane1,plane2);
+							//System.out.println("Got bucket Number: "+bnumber);
+
+
+							list.clear();
+							line=reader.readLine();
+										
+							
+						}//end of while
+						reader.close();
+	}//endof setup
+	
 
 
 
 
 
+	public static void main(String[] args){
+		
+	long startTime = System.currentTimeMillis();
+	addPoint(plane1,4.9,3.86,1.73,1.28);
+	addPoint(plane2,7.03,3.15,8.2,0.45);
+	
 
-
-
-
-
-
+	try	{
+		setUp("train.txt",list1);
+	} catch(Exception e){
+		System.out.println("Something wrong in setup");
+	}
+		
+		
+	
+		//addPoint(list1,1.1,2.2,3.3,4.4);
+		
+				
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 		//System.out.println("Start time: "+startTime);
