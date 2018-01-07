@@ -81,7 +81,7 @@ public class Jaccard{
 		bucketBit1 <<= 1;
         bucketBit1 |= bucketBit2;
         bucketNumber=Integer.toString(bucketBit1,2);
-        System.out.println("******************>>>>>>>>The bucket number is : "+bucketNumber);
+        //System.out.println("******************>>>>>>>>The bucket number is : "+bucketNumber);
         return bucketNumber;
 	}
 
@@ -122,7 +122,20 @@ public class Jaccard{
 							//Hash function and hash table should be included
 							//tlist.add(record1);
 							String bnumber=getBucketNumber(list, plane1,plane2);
-							//System.out.println("Got bucket Number: "+bnumber);
+							System.out.println("Got bucket Number: "+bnumber); 
+							if(bnumber.equals("0")){
+								list00.add(record1);
+								System.out.println("**********************************>>Inserted in 00 table ");
+							} else if(bnumber.equals("1")){
+								list01.add(record1);
+								System.out.println("**********************************>>Inserted in 01 Table");
+							} else if(bnumber.equals("10")){
+								list10.add(record1);
+								System.out.println("**********************************>>Inserted in 10 Table");
+							} else if(bnumber.equals("11")){
+								list11.add(record1);
+								System.out.println("**********************************>>Inserted in 11 Table");
+							}
 
 
 							list.clear();
